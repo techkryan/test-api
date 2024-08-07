@@ -1,8 +1,8 @@
 namespace Test.Api.Dtos;
 
 public record class UpdateAlbumDto(
-    string Band,
     string Name,
-    string Genre,
+    int BandId,
+    int GenreId,
     DateOnly ReleaseDate
 );
