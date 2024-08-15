@@ -10,29 +10,6 @@ namespace Test.Api.Endpoints;
 
 public static class AlbumsEndpoints
 {
-    // const string GetAlbumEndpointName = "GetAlbum";
-
-    // private static readonly List<AlbumSummaryDto> albums = [
-    //     new(
-    //         1,
-    //         "Bethlehem",
-    //         "Dictius Te Necare",
-    //         "Black Metal",
-    //         new DateOnly(1996, 5, 14)),
-    //     new(
-    //         2,
-    //         "Pink Floyd",
-    //         "The Dark Side of the Moon",
-    //         "Progressive Rock",
-    //         new DateOnly(1972, 3, 1)),
-    //     new(
-    //         3,
-    //         "Joy Division",
-    //         "Unknown Pleasures",
-    //         "Post-Punk",
-    //         new DateOnly(1979, 6, 15))
-    // ];
-
     public static RouteGroupBuilder MapAlbumsEndpoinsts(this WebApplication app)
     {
         var group = app.MapGroup("albums");
@@ -40,7 +17,18 @@ public static class AlbumsEndpoints
         group.MapGet("/", async (CatalogDbContext dbContext) => 
             await dbContext.Albums
                      .Include(album => album.Genre)
+                     .Include(album => album.Band)
                      .Select(album => album.ToAlbumSummaryDto())
+                     .AsNoTracking()
+                     .ToListAsync())
+
+        app.MapGet("/genres", async (CatalogDbContext dbContext) => 
+            await dbContext.Genres
+                     .AsNoTracking()
+                     .ToListAsync());
+
+        app.MapGet("/bands", async (CatalogDbContext dbContext) => 
+            await dbContext.Bands
                      .AsNoTracking()
                      .ToListAsync());
 
