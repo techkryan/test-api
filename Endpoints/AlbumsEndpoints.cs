@@ -21,6 +21,7 @@ public static class AlbumsEndpoints
                      .Select(album => album.ToAlbumSummaryDto())
                      .AsNoTracking()
                      .ToListAsync())
+            .WithName("GetAlbums");
 
         app.MapGet("/genres", async (CatalogDbContext dbContext) => 
             await dbContext.Genres
@@ -39,8 +40,9 @@ public static class AlbumsEndpoints
             return album is null
                 ? TypedResults.NotFound()
                 : TypedResults.Ok(album.ToAlbumDetailsDto());
-        });
-           // .WithName(GetAlbumEndpointName);
+        })
+            .WithName("GetAlbum");
+
 
         group.MapPost("/", async (CreateAlbumDto newAlbum, CatalogDbContext dbContext) =>
         {
@@ -50,7 +52,10 @@ public static class AlbumsEndpoints
             await dbContext.SaveChangesAsync();
 
             return TypedResults.Created("/albums/{id}", album.ToAlbumDetailsDto());
-        });
+        })
+             .WithName("CreateAlbum")
+             .Accepts<CreateAlbumDto>("application/json");
+
 
         group.MapPut("/{id}", async Task<Results<NoContent, NotFound>> (int id, UpdateAlbumDto updatedAlbum, CatalogDbContext dbContext) => 
         {
@@ -68,7 +73,9 @@ public static class AlbumsEndpoints
             await dbContext.SaveChangesAsync();
 
             return TypedResults.NoContent();
-        });
+        })
+             .WithName("UpdateAlbum")
+             .Accepts<UpdateAlbumDto>("application/json");
 
         group.MapDelete("/{id}", async (int id, CatalogDbContext dbContext) =>
         {
@@ -77,7 +84,8 @@ public static class AlbumsEndpoints
                            .ExecuteDeleteAsync();
 
             return TypedResults.NoContent();
-        });
+        })
+             .WithName("DeleteAlbum");
 
         return group;
     }
