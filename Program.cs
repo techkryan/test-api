@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-// using Microsoft.AspNetCore.OpenApi;
-// using Swashbuckle.AspNetCore;
+using System.Reflection;
 
-using Test.Api.Endpoints;
 using Test.Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers();
+
+// builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -28,6 +28,9 @@ builder.Services.AddSwaggerGen(options =>
         //     Url = new Uri("https://example.com/license")
         // }
     });
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
 var connectionString = builder.Configuration.GetConnectionString("MusicCatalog");
@@ -37,6 +40,7 @@ builder.Services.AddDbContext<CatalogDbContext>(
     {
         options.UseNpgsql(connectionString);
     });
+
 
 var app = builder.Build();
 
@@ -50,6 +54,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapAlbumsEndpoinsts();
+app.MapControllers();
 
 app.Run();
