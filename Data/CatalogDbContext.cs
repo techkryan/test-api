@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 using Test.Api.Entities;
 // using Microsoft.Extensions.Configuration;
 
 namespace Test.Api.Data;
 
-public class CatalogDbContext : DbContext
+public class CatalogDbContext : IdentityDbContext<IdentityUser>
 {
     // protected readonly IConfiguration Configuration;
     //
@@ -30,7 +33,7 @@ public class CatalogDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<GenreEntity>().HasData(
             new {Id = 1, Name = "Black Metal"},
             new {Id = 2, Name = "Death Metal"},
