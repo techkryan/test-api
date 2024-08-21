@@ -72,6 +72,7 @@ public class AlbumsController : ControllerBase
     /// <response code="201">Returns the newly created item</response>
     /// <response code="400">The item is null</response>
     [HttpPost]
+    [Authorize("api")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<AlbumDetailsDto>> Create(CreateAlbumDto newAlbum)
@@ -92,6 +93,7 @@ public class AlbumsController : ControllerBase
     /// <response code="204">The item updated successfully</response>
     /// <response code="404">The item not found</response>
     [HttpPut("{id}")]
+    [Authorize("api")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<NoContentResult>> Update(int id, UpdateAlbumDto updatedAlbum)
@@ -118,6 +120,7 @@ public class AlbumsController : ControllerBase
     /// <param name="id">ID of the album to delete</param>
     /// <response code="204">The item deleted successfully</response>
     [HttpDelete("{id}")]
+    [Authorize("api")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult<NoContentResult>> Delete(int id)
     {
