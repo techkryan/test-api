@@ -36,6 +36,12 @@ public class CatalogDbContext : DbContext
             new {Id = 2, Name = "Death Metal"},
             new {Id = 3, Name = "Progressive Rock"}
         );
+
+        modelBuilder.Entity<BandEntity>().HasData(
+            new {Id = 1, Name = "Bethlehem"},
+            new {Id = 2, Name = "Devourment"},
+            new {Id = 3, Name = "Pink Floyd"}
+        );
     }
 
 }
