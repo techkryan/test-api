@@ -9,7 +9,7 @@ using Test.Api.Entities;
 namespace Test.Api.Controllers;
 
 [ApiController]
-[Route("albums")]
+[Route("api/[controller]")]
 [Produces("application/json")]
 public class AlbumsController : ControllerBase
 {
