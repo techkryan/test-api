@@ -21,7 +21,7 @@ public static class AlbumMapping
         return new(
             album.Id,
             album.Name,
-            album.Band!.Name,
+            album.Band.Name,
             album.Genre!.Name,
             album.ReleaseDate
         );

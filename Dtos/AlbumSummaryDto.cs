@@ -4,6 +4,6 @@ public record class AlbumSummaryDto(
     int Id,
     string Name,
     string Band,
-    string Genre,
-    DateOnly ReleaseDate
+    string? Genre,
+    DateOnly? ReleaseDate
 );
