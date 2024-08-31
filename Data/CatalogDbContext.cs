@@ -30,6 +30,8 @@ public class CatalogDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<BandEntity> Bands => Set<BandEntity>();
 
+    public DbSet<UserRecordEntity> UserRecords => Set<UserRecordEntity>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
