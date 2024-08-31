@@ -97,4 +97,27 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    string[] users = new[] { "Admin", "User" };
+    foreach (var user in users)
+    {
+        if (!await roleManager.RoleExistsAsync(user))
+        {
+            await roleManager.CreateAsync(new IdentityRole(user));
+        }
+
+        if (await userManager.FindByNameAsync(user) == null)
+        {
+            var appUser = new ApplicationUser {UserName = user};
+
+            await userManager.CreateAsync(appUser, user);
+            await userManager.AddToRoleAsync(appUser, user);
+        }
+    }
+}
+
 app.Run();
