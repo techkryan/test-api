@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 using Test.Api.Entities;
@@ -7,7 +6,7 @@ using Test.Api.Entities;
 
 namespace Test.Api.Data;
 
-public class CatalogDbContext : IdentityDbContext<IdentityUser>
+public class CatalogDbContext : IdentityDbContext<ApplicationUser>
 {
     // protected readonly IConfiguration Configuration;
     //
