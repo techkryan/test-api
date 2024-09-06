@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Test.Api.Data.Migrations
+namespace MusicCatalog.Api.Data.Migrations
 {
     /// <inheritdoc />
     public partial class AddIdentity : Migration

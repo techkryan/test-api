@@ -1,4 +1,4 @@
-namespace Test.Api.Dtos;
+namespace MusicCatalog.Api.Dtos;
 
 public record class AlbumDetailsDto(
     int Id,

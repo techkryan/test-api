@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-using Test.Api.Entities;
+using MusicCatalog.Api.Entities;
 // using Microsoft.Extensions.Configuration;
 
-namespace Test.Api.Data;
+namespace MusicCatalog.Api.Data;
 
 public class CatalogDbContext : IdentityDbContext<ApplicationUser>
 {

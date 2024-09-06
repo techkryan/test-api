@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Test.Api.Data;
+using MusicCatalog.Api.Data;
 
 #nullable disable
 
-namespace Test.Api.Data.Migrations
+namespace MusicCatalog.Api.Data.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
     [Migration("20240821062358_AddIdentity")]
@@ -221,7 +221,7 @@ namespace Test.Api.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Test.Api.Entities.AlbumEntity", b =>
+            modelBuilder.Entity("MusicCatalog.Api.Entities.AlbumEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -251,7 +251,7 @@ namespace Test.Api.Data.Migrations
                     b.ToTable("Albums");
                 });
 
-            modelBuilder.Entity("Test.Api.Entities.BandEntity", b =>
+            modelBuilder.Entity("MusicCatalog.Api.Entities.BandEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -291,7 +291,7 @@ namespace Test.Api.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Test.Api.Entities.GenreEntity", b =>
+            modelBuilder.Entity("MusicCatalog.Api.Entities.GenreEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -376,15 +376,15 @@ namespace Test.Api.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Test.Api.Entities.AlbumEntity", b =>
+            modelBuilder.Entity("MusicCatalog.Api.Entities.AlbumEntity", b =>
                 {
-                    b.HasOne("Test.Api.Entities.BandEntity", "Band")
+                    b.HasOne("MusicCatalog.Api.Entities.BandEntity", "Band")
                         .WithMany()
                         .HasForeignKey("BandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Test.Api.Entities.GenreEntity", "Genre")
+                    b.HasOne("MusicCatalog.Api.Entities.GenreEntity", "Genre")
                         .WithMany()
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)

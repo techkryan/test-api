@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Test.Api.Controllers;
+namespace MusicCatalog.Api.Controllers;
 
 [Authorize(Roles = "Admin")]
 [Route("api/[controller]/[action]")]

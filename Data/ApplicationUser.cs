@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace Test.Api.Data;
+namespace MusicCatalog.Api.Data;
 
 public class ApplicationUser : IdentityUser
 {

@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
-using Test.Api.Data;
-using Test.Api.Mapping;
-using Test.Api.Dtos;
-using Test.Api.Entities;
+using MusicCatalog.Api.Data;
+using MusicCatalog.Api.Mapping;
+using MusicCatalog.Api.Dtos;
+using MusicCatalog.Api.Entities;
 
-namespace Test.Api.Controllers;
+namespace MusicCatalog.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 
-using Test.Api.Data;
+using MusicCatalog.Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

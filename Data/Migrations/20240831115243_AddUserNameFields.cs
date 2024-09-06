@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Test.Api.Data.Migrations
+namespace MusicCatalog.Api.Data.Migrations
 {
     /// <inheritdoc />
     public partial class AddUserNameFields : Migration

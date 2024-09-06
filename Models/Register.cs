@@ -1,4 +1,4 @@
-namespace Test.Api.Models;
+namespace MusicCatalog.Api.Models;
 
 public class Register
 {

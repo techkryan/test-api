@@ -1,4 +1,4 @@
-namespace Test.Api.Entities;
+namespace MusicCatalog.Api.Entities;
 
 public class UserRecordEntity
 {

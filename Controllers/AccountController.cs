@@ -6,10 +6,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-using Test.Api.Models;
-using Test.Api.Data;
+using MusicCatalog.Api.Models;
+using MusicCatalog.Api.Data;
 
-namespace Test.Api.Controllers;
+namespace MusicCatalog.Api.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
@@ -61,7 +61,7 @@ public class AccountController : ControllerBase
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)),
-                    SecurityAlgorithms.HmacSha256
+                    SecurityAlgorithms.HmacSha256   
                 )
             );
             

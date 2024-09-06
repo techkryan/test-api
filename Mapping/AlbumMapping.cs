@@ -1,7 +1,7 @@
-using Test.Api.Dtos;
-using Test.Api.Entities;
+using MusicCatalog.Api.Dtos;
+using MusicCatalog.Api.Entities;
 
-namespace Test.Api.Mapping;
+namespace MusicCatalog.Api.Mapping;
 
 public static class AlbumMapping
 {
