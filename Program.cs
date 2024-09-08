@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 
 using MusicCatalog.Api.Data;
+using MusicCatalog.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,7 @@ builder.Services.AddDbContext<CatalogDbContext>(
         options.UseNpgsql(connectionString);
     });
 
+builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 4;
