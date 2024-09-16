@@ -26,18 +26,16 @@ public class AlbumsController : ControllerBase
     /// </summary>
     /// <returns>All albums</returns>
 
-    [Authorize]
     [HttpGet]
-    public async Task<ActionResult<List<AlbumSummaryDto>>> GetAll()
+    public async Task<ActionResult<List<AlbumSummaryDto>>> Get([FromQuery] string? query)
     {
-        var albums = await _dbContext.Albums
-            .Include(album => album.Genre)
+        return await _dbContext.Albums
+            .Where(album => query == null || EF.Functions.TrigramsAreWordSimilar(query, album.Band.Name + album.Name))
             .Include(album => album.Band)
+            .Include(album => album.Genre)
             .Select(album => album.ToAlbumSummaryDto())
             .AsNoTracking()
             .ToListAsync();
-
-        return albums;
     }
 
     /// <summary>

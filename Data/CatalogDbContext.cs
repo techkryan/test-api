@@ -46,6 +46,8 @@ public class CatalogDbContext : IdentityDbContext<ApplicationUser>
             new {Id = 2, Name = "Devourment"},
             new {Id = 3, Name = "Pink Floyd"}
         );
+
+        modelBuilder.HasPostgresExtension("pg_trgm");
     }
 
 }
