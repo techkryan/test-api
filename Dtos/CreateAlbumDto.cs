@@ -1,10 +1,20 @@
+using System.ComponentModel.DataAnnotations;
+using MusicCatalog.Api.Utilities;
+
 namespace MusicCatalog.Api.Dtos;
 
 public record class CreateAlbumDto(
-    // string Band,
+    [Required]
+    [MaxLength(128)]
     string Name,
+
+    [Required]
+    [Range(1, int.MaxValue, ErrorMessage = "IDs bigger than {1} are only allowed.")]
     int BandId,
-    // string Genre,
+
+    [Range(1, int.MaxValue, ErrorMessage = "IDs bigger than {1} are only allowed.")]
     int GenreId,
+
+    [YearRange(1912, ErrorMessage = "An album must have the release date in the year range between {1} and {2}.")]
     DateOnly ReleaseDate
 );
