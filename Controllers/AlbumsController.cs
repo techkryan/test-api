@@ -112,7 +112,7 @@ public class AlbumsController : ControllerBase
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<NoContentResult>> Update(int id, UpdateAlbumDto updatedAlbum)
+    public async Task<ActionResult> Update(int id, UpdateAlbumDto updatedAlbum)
     {
         var existingAlbum = await _dbContext.Albums.FindAsync(id);
 
@@ -138,7 +138,7 @@ public class AlbumsController : ControllerBase
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<NoContentResult>> Delete(int id)
+    public async Task<ActionResult> Delete(int id)
     {
         await _dbContext.Albums
                        .Where(album => album.Id == id)

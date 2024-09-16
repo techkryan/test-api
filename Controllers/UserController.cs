@@ -69,7 +69,7 @@ public class UserController : ControllerBase
     }
     
     [HttpDelete("{id}")]
-    public async Task<ActionResult<NoContentResult>> RemoveAlbum(int id)
+    public async Task<ActionResult> RemoveAlbum(int id)
     {
         await _dbContext.UserRecords
                         .Where(r => r.Album.Id == id)
