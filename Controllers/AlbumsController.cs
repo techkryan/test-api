@@ -80,6 +80,19 @@ public class AlbumsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<AlbumDetailsDto>> Create(CreateAlbumDto newAlbum)
     {
+        var oldAlbum = _dbContext.Albums
+            .Where(album => album.BandId == newAlbum.BandId)
+            .Include(album => album.Genre)
+            .Include(album => album.Band)
+            .SingleOrDefault(album => album.Name == newAlbum.Name);
+        // _dbContext.Albums.Any(album => album.Name == newAlbum.Name)
+        if (oldAlbum is not null)
+        {
+            return Conflict(new {
+                    message = $"An album with the name '{oldAlbum.Name}' already exists.",
+                    content = oldAlbum.ToAlbumSummaryDto()});
+        }
+
         AlbumEntity album = newAlbum.ToEntity();
 
         _dbContext.Albums.Add(album);
