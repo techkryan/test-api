@@ -8,6 +8,7 @@ using System.Text;
 
 using MusicCatalog.Api.Data;
 using MusicCatalog.Api.Services;
+using MusicCatalog.Api.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,6 +80,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"))
     .AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
+
+builder.Services.AddTransient<IAlbumRepository, AlbumRepository>();
 
 var app = builder.Build();
 

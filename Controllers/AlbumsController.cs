@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 
-using MusicCatalog.Api.Data;
-using MusicCatalog.Api.Mapping;
 using MusicCatalog.Api.Dtos;
-using MusicCatalog.Api.Entities;
+using MusicCatalog.Api.Models;
+using MusicCatalog.Api.Repository;
 
 namespace MusicCatalog.Api.Controllers;
 
@@ -14,11 +12,11 @@ namespace MusicCatalog.Api.Controllers;
 [Produces("application/json")]
 public class AlbumsController : ControllerBase
 {
-    private readonly CatalogDbContext _dbContext;
+    private readonly IAlbumRepository _albumRepository;
 
-    public AlbumsController(CatalogDbContext dbContext)
+    public AlbumsController(IAlbumRepository albumRepository)
     {
-        _dbContext = dbContext;
+        _albumRepository = albumRepository;
     }
     
     /// <summary>
@@ -27,15 +25,9 @@ public class AlbumsController : ControllerBase
     /// <returns>All albums</returns>
 
     [HttpGet]
-    public async Task<ActionResult<List<AlbumSummaryDto>>> Get([FromQuery] string? query)
+    public async Task<ActionResult<List<AlbumSummaryDto>>> Get([FromQuery] Query query)
     {
-        return await _dbContext.Albums
-            .Where(album => query == null || EF.Functions.TrigramsAreWordSimilar(query, album.Band.Name + album.Name))
-            .Include(album => album.Band)
-            .Include(album => album.Genre)
-            .Select(album => album.ToAlbumSummaryDto())
-            .AsNoTracking()
-            .ToListAsync();
+        return await _albumRepository.GetAllAsync(query);
     }
 
     /// <summary>
@@ -48,11 +40,11 @@ public class AlbumsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<AlbumDetailsDto>> GetById(int id)
     {
-        AlbumEntity? album = await _dbContext.Albums.FindAsync(id);
+        var album = await _albumRepository.GetByIdAsync(id);
 
         return album is null
             ? NotFound()
-            : album.ToAlbumDetailsDto();
+            : album;
     }
 
     /// <summary>
@@ -80,25 +72,16 @@ public class AlbumsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<AlbumDetailsDto>> Create(CreateAlbumDto newAlbum)
     {
-        var oldAlbum = _dbContext.Albums
-            .Where(album => album.BandId == newAlbum.BandId)
-            .Include(album => album.Genre)
-            .Include(album => album.Band)
-            .SingleOrDefault(album => album.Name == newAlbum.Name);
-        // _dbContext.Albums.Any(album => album.Name == newAlbum.Name)
-        if (oldAlbum is not null)
+        var album = await _albumRepository.CreateAsync(newAlbum);
+
+        if (album is not null)
         {
             return Conflict(new {
-                    message = $"An album with the name '{oldAlbum.Name}' already exists.",
-                    content = oldAlbum.ToAlbumSummaryDto()});
+                    message = $"An album with the name '{album.Name}' already exists for this band.",
+                    content = album});
         }
 
-        AlbumEntity album = newAlbum.ToEntity();
-
-        _dbContext.Albums.Add(album);
-        await _dbContext.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetById), new { id = album.Id }, album.ToAlbumDetailsDto());
+        return CreatedAtAction(nameof(GetById), new { id = album!.Id },  album);
     }
 
     /// <summary>
@@ -114,18 +97,12 @@ public class AlbumsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> Update(int id, UpdateAlbumDto updatedAlbum)
     {
-        var existingAlbum = await _dbContext.Albums.FindAsync(id);
+        var result = await _albumRepository.UpdateAsync(id, updatedAlbum);
 
-        if (existingAlbum is null)
+        if (result is null)
         {
             return NotFound();
         }
-
-        _dbContext.Entry(existingAlbum)
-                 .CurrentValues
-                 .SetValues(updatedAlbum.ToEntity(id));
-
-        await _dbContext.SaveChangesAsync();
 
         return NoContent();
     }
@@ -140,9 +117,7 @@ public class AlbumsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Delete(int id)
     {
-        await _dbContext.Albums
-                       .Where(album => album.Id == id)
-                       .ExecuteDeleteAsync();
+        await _albumRepository.DeleteAsync(id);
 
         return NoContent();
     }
